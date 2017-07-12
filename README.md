@@ -18,11 +18,11 @@ testrail.username={YOUR_USERNAME_FOR_TESTRAIL}
 testrail.password={YOUR_PASSWORD_FOR_TESTRAIL}
 ```
 
-Create an environment variable called `TESTRAIL_INT_HOME` and point it to where the conf directory is located
+Create an environment variable called `TESTRAIL_REPORT_HOME` and point it to where the conf directory is located
 
 ```
 $ vim ~/.bash_profile
-export TESTRAIL_INT_HOME={PATH_TO_CONF_DIRECTORY}
+export TESTRAIL_REPORT_HOME={PATH_TO_CONF_DIRECTORY}
 $ . ~/.bash_profile
 ```
 

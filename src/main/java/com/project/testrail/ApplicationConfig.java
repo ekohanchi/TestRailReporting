@@ -12,7 +12,7 @@ import static com.project.testrail.ApplicationConfig.*;
 @PropertySource({ CLASSPATH_PROPERTY_RESOURCE, FILE_PROPERTY_RESOURCE })
 public class ApplicationConfig {
 	
-	public static final String FILE_PROPERTY_RESOURCE = "file:${TESTRAIL_INT_HOME}/conf/application.properties";
+	public static final String FILE_PROPERTY_RESOURCE = "file:${TESTRAIL_REPORT_HOME}/conf/application.properties";
     public static final String CLASSPATH_PROPERTY_RESOURCE = "classpath:application.properties";
 	
 	@Value("${testrail.baseurl}")
