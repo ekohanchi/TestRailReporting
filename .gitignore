@@ -1,5 +1,6 @@
 # Project config
 #src/test/resources/*
+conf/**
 
 # Test results
 target/
