@@ -84,7 +84,11 @@ public class TestCases {
 			if (getProjectIgnoreList().contains(projectId)) {
 				percentage = 0;
 			} else {
-				percentage = (float) ((totalAutoTC.get(projectId) * 100) / totalTC.get(projectId));
+				if (totalTC.get(projectId) == 0) {
+					percentage = 0;
+				} else {
+					percentage = (float) ((totalAutoTC.get(projectId) * 100) / totalTC.get(projectId));
+				}
 			}
 			percentageAutoTC.put(projectId, percentage);
 		}
