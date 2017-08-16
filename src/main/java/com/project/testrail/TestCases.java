@@ -68,6 +68,7 @@ public class TestCases {
 		ArrayList<Integer> ignoreList = new ArrayList<Integer>();
 
 		ignoreList.add(19); // Veritix Platform Regression Suite
+		ignoreList.add(12); // Automation-Integration-POC
 
 		return ignoreList;
 	}
