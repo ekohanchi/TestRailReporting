@@ -17,6 +17,7 @@
         <!-- Main content. -->
         <div class="table-content">
             <!-- Tables. -->
+            <div class="curdate"> ${todaysDate!"NULL"}</div>
             <div class="envs">Test Cases Per Project List</div>
             <table class="striped">
                 <thead>

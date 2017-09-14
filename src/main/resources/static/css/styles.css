@@ -101,3 +101,11 @@ body {
 	font-size:16px;
 	padding:8px 0 8px 20px;
 }
+.curdate {
+	font-size: 28px;
+    font-weight: bold;
+    text-align: right;
+    color: #3399CF;
+    padding-right: 10px;
+}
+}

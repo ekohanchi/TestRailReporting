@@ -73,12 +73,12 @@ public class TestCases {
 		return ignoreList;
 	}
 
-	public HashMap<Integer, Float> getPercentageAutoTC(HashMap<Integer, String> projectList,
+	public HashMap<Integer, String> getPercentageAutoTC(HashMap<Integer, String> projectList,
 			HashMap<Integer, Integer> totalTC, HashMap<Integer, Integer> totalAutoTC) {
 
 		int projectId;
-		float percentage;
-		HashMap<Integer, Float> percentageAutoTC = new HashMap<Integer, Float>();
+		double percentage;
+		HashMap<Integer, String> percentageAutoTC = new HashMap<Integer, String>();
 
 		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
 			projectId = entry.getKey();
@@ -88,10 +88,11 @@ public class TestCases {
 				if (totalTC.get(projectId) == 0) {
 					percentage = 0;
 				} else {
-					percentage = (float) ((totalAutoTC.get(projectId) * 100) / totalTC.get(projectId));
+					percentage = ((double) totalAutoTC.get(projectId) / (double) totalTC.get(projectId)) * 100;
+					//percentage = (double) ((totalAutoTC.get(projectId) * 100) / totalTC.get(projectId));
 				}
 			}
-			percentageAutoTC.put(projectId, percentage);
+			percentageAutoTC.put(projectId, String.format("%.2f", percentage));
 		}
 
 		return percentageAutoTC;
