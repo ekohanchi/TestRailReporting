@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.project.testrail.core.APIClient;
 
 public class TestCases {
@@ -26,14 +25,7 @@ public class TestCases {
 				Object object = client.sendGet("get_cases/" + projectId);
 				JsonElement casesJE = Utils.convertObjectToJson(object);
 				JsonArray casesJA = casesJE.getAsJsonArray();
-				tcCount = 0;
-				for (JsonElement testCase : casesJA) {
-					int testCaseTypeId = ((JsonObject)testCase).get("type_id").getAsInt();
-					// 13 is "Not Automatable" test case type
-					if (testCaseTypeId != 13) {
-						tcCount++;
-					}
-				}
+				tcCount = casesJA.size();
 			}
 
 			casesPerProject.put(projectId, tcCount);
