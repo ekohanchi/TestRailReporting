@@ -26,8 +26,8 @@
                         <th>Project</th>
                         <th>Total Test Cases</th>
                         <th>Total Automated Test Cases</th>
+                        <th>Not Automatable Test Cases</th>
                         <th>Percentage Automated Test Cases </th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +46,7 @@
                         <td class="vertext">${project.projectName!"NULL"}</td>
                         <td class="vertext">${project.totalTcs!"NULL"}</td>
                         <td class="vertext">${project.totalAutoTcs!"NULL"}</td>
+                        <td class="vertext">${project.notAutomatableTcs!"NULL"}</td>
                         <td class="vertext">${project.autoPercentage!"NULL"}</td>
                     </tr>
                     </#list>

@@ -5,6 +5,7 @@ public class Project {
 	private String projectName;
 	private int totalTcs;
 	private int totalAutoTcs;
+	private int notAutomatableTcs;
 	private String autoPercentage;
 	
 	public int getProjectId() {
@@ -31,12 +32,16 @@ public class Project {
 	public void setTotalAutoTcs(int totalAutoTcs) {
 		this.totalAutoTcs = totalAutoTcs;
 	}
+	public int getNotAutomatableTcs() {
+		return notAutomatableTcs;
+	}
+	public void setNotAutomatableTcs(int notAutomatableTcs) {
+		this.notAutomatableTcs = notAutomatableTcs;
+	}
 	public String getAutoPercentage() {
 		return autoPercentage;
 	}
 	public void setAutoPercentage(String autoPercentage) {
 		this.autoPercentage = autoPercentage;
 	}
-	
-	
 }
