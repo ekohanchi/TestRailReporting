@@ -37,7 +37,7 @@ public class TestCases {
 		return casesPerProject;
 	}
 
-	public HashMap<Integer, Integer> getTotalAutoTCCount(APIClient client, HashMap<Integer, String> projectList) {
+	public HashMap<Integer, Integer> getTCCountByID(APIClient client, HashMap<Integer, String> projectList, int typeId) {
 		int projectId, tcCount;
 		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
 
@@ -48,7 +48,7 @@ public class TestCases {
 			if (getProjectIgnoreList().contains(projectId)) {
 				tcCount = 0;
 			} else {
-				Object object = client.sendGet("get_cases/" + projectId + "&type_id=3");
+				Object object = client.sendGet("get_cases/" + projectId + "&type_id=" + typeId);
 				JsonElement casesJE = Utils.convertObjectToJson(object);
 				JsonArray casesJA = casesJE.getAsJsonArray();
 				tcCount = casesJA.size();
@@ -61,7 +61,6 @@ public class TestCases {
 		// Utils.printCasesPerProject(casesPerProject);
 
 		return casesPerProject;
-
 	}
 
 	private ArrayList<Integer> getProjectIgnoreList() {
@@ -74,7 +73,7 @@ public class TestCases {
 	}
 
 	public HashMap<Integer, String> getPercentageAutoTC(HashMap<Integer, String> projectList,
-			HashMap<Integer, Integer> totalTC, HashMap<Integer, Integer> totalAutoTC) {
+			HashMap<Integer, Integer> totalTC, HashMap<Integer, Integer> totalAutoTC, HashMap<Integer, Integer> notAutomatableTC) {
 
 		int projectId;
 		double percentage;
@@ -88,7 +87,7 @@ public class TestCases {
 				if (totalTC.get(projectId) == 0) {
 					percentage = 0;
 				} else {
-					percentage = ((double) totalAutoTC.get(projectId) / (double) totalTC.get(projectId)) * 100;
+					percentage = ((double) totalAutoTC.get(projectId) / ((double) totalTC.get(projectId) - (double) notAutomatableTC.get(projectId))) * 100;
 					//percentage = (double) ((totalAutoTC.get(projectId) * 100) / totalTC.get(projectId));
 				}
 			}
