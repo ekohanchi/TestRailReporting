@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.project.testrail.core.APIClient;
 
 public class ProjectNames {
@@ -32,5 +33,18 @@ public class ProjectNames {
 		// Utils.printProjectList(projectList);
 
 		return projectList;
+	}
+	
+	public String getName(APIClient client, int projectId) {
+		String projectName = "";
+		
+		Object projectObject = client.sendGet("get_project/" + projectId);
+		JsonElement projectJE = Utils.convertObjectToJson(projectObject);
+		JsonObject projectJO = projectJE.getAsJsonObject();
+		
+		projectName = projectJO.get("name").getAsString();
+		return projectName;
+		
+		
 	}
 }
