@@ -31,6 +31,11 @@ To start up the application:
 ```
 mvn spring-boot:run
 ```
+## Build as war file
+To build the application as a war file:
+```
+mvn clean package
+```
 
 ## Access
 To access the application, on your browser navigate to: http://localhost:8080
