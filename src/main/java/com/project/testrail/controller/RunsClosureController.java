@@ -59,7 +59,7 @@ public class RunsClosureController extends BaseController {
 			// Get count of closed test runs
 			openTestRunsAfter = testRuns.getList(client, projectId).size();
 			
-			message = "Test runs closed	 for specificed project";
+			message = "Test runs closed for specified project";
 		} else {
 			projectId = project_id;
 			projectName = "Not available";

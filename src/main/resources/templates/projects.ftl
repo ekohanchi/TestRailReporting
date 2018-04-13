@@ -1,60 +1,72 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-<title>Project Summary</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="css/bootstrap.min.css" />
-<link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-    <div class="container container-navbar">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Test Cases & Project Summary</a>
-        </div>
-    </div>
-    <div class="container api-container">
+<html lang="en" style="overflow-y: scroll;">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- Main content. -->
-        <div class="table-content">
-            <!-- Tables. -->
-	    <div class="curdate">Last Updated on: ${todaysDate!"NULL"}</div>
-            <div class="envs">Test Cases Per Project List</div>
-            <table class="striped">
-                <thead>
-                    <tr>
-                        <th>Project ID</th>
-                        <th>Project</th>
-                        <th>Total Test Cases</th>
-                        <th>Total Automated Test Cases</th>
-                        <th>Not Automatable Test Cases</th>
-                        <th>Percentage Automated Test Cases </th>
-                    </tr>
-                </thead>
-                <tbody>
-                <!-- 
-                	<tr>
-                		<td>1</td>
-                		<td>Sample project</td>
-                		<td>100</td>
-                		<td>50</td>
-                	</tr>
-                	-->
-                
-                    <#list projects as project>
-                    <tr>
-                        <td><b>${project.projectId}</b></td>
-                        <td class="vertext">${project.projectName!"NULL"}</td>
-                        <td class="vertext">${project.totalTcs!"NULL"}</td>
-                        <td class="vertext">${project.totalAutoTcs!"NULL"}</td>
-                        <td class="vertext">${project.notAutomatableTcs!"NULL"}</td>
-                        <td class="vertext">${project.autoPercentage!"NULL"}</td>
-                    </tr>
-                    </#list>
-                    
-                </tbody>
-            </table>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script defer src="js/fontawesome-all.js"></script>
+
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+        <title>Home - TestRail Project Summary</title>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/"><img src="img/testrail.png" width="75" height="30" class="d-inline-block align-top" alt="">TestRail Project Summary</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="runsclosure">Close Test Runs</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <div class="container my-5">
+                <div class="container my-5">
+                    <div class="row mb-3">
+                        <p class="lead text-secondary">Last Updated on: ${todaysDate!"NULL"}</p>
+                    </div>
+                    <div class="row">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Project</th>
+                                    <th scope="col">Total Test Cases</th>
+                                    <th scope="col">Total Automated</th>
+                                    <th scope="col">Not Automatable</th>
+                                    <th scope="col">% Automated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <#list projects as project>
+                                    <tr>
+                                        <td scope="row"><b>${project.projectId}</b></td>
+                                        <td>${project.projectName!"NULL"}</td>
+                                        <td>${project.totalTcs!"NULL"}</td>
+                                        <td>${project.totalAutoTcs!"NULL"}</td>
+                                        <td>${project.notAutomatableTcs!"NULL"}</td>
+                                        <td>${project.autoPercentage!"NULL"}</td>
+                                    </tr>
+                                </#list>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /Main content. -->
-    </div>
-</body>
+
+        <script src="js/jquery-3.2.1.slim.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
 </html>

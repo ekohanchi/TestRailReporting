@@ -40,3 +40,25 @@ mvn clean package
 ## Access
 To access the application, on your browser navigate to: http://localhost:8080
 
+## Endpoint Usage
+**Status Report:** Provides graphical status of test run for a given testRunId, i.e. pass/fail/untested. testRunId is required.
+
+* **URL:**
+```
+/runstatusreport?testRunId={testRunId}
+```
+
+* **Method:**
+`GET`
+
+**Type Report:** Provides graphical view of the different types of test cases for a given testRunId, i.e. manual/automated.
+
+
+* **URL:**
+```
+/runtypereport?testRunId={testRunId}
+```
+
+* **Method:**
+`GET`
+
