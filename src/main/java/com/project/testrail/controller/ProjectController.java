@@ -35,7 +35,6 @@ public class ProjectController extends BaseController {
 		HashMap<Integer, String> projectList;
 		HashMap<Integer, Integer> casePerProject;
 		HashMap<Integer, Integer> autoCasePerProject;
-		// HashMap<Integer, Float> autoPercentage;
 		HashMap<Integer, Integer> notAutomatablePerProject;
 		HashMap<Integer, String> autoPercentage;
 
@@ -44,8 +43,8 @@ public class ProjectController extends BaseController {
 
 		projectList = projectName.getList(client);
 		casePerProject = testcases.getTotalTCCount(client, projectList);
-		autoCasePerProject = testcases.getTCCountByID(client, projectList, 3);
-		notAutomatablePerProject = testcases.getTCCountByID(client, projectList, 13);
+		autoCasePerProject = testcases.getTCCountByAutoStatus(client, projectList, 2);
+		notAutomatablePerProject = testcases.getTCCountByAutoStatus(client, projectList, 3);
 		autoPercentage = testcases.getPercentageAutoTC(projectList, casePerProject, autoCasePerProject, notAutomatablePerProject);
 
 		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {

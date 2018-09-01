@@ -15,8 +15,9 @@
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/"><img src="img/testrail.png" width="75" height="30" class="d-inline-block align-top" alt="">TestRail Project Summary</a>
+            <a class="navbar-brand" href="/"><img src="img/testrailNcenterfield.png" width="200" height="30" class="d-inline-block align-top" alt="">TestRail Project Summary</a>
             <div class="collapse navbar-collapse" id="navbarNav">
+            <!--
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="/">Home</a>
@@ -25,6 +26,7 @@
                         <a class="nav-link" href="runsclosure">Close Test Runs</a>
                     </li>
                 </ul>
+             -->
             </div>
         </nav>
 
