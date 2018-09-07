@@ -1,4 +1,4 @@
-# testrail-integration
+# TestRail-Reporting
 This is a spring boot application, that makes a call to the testrail api and retrievs a list of all projects and within a table displays the total count of test cases, total count of automated test cases, and percentage of automated test cases. In order for the application to start up correctly it must first be configured.
 
 ## Configure
