@@ -14,8 +14,10 @@ $ vim application.properties
 Within the file the following content should be added:
 
 ```
+testrail.baseurl={YOUR_URL_DOMAIN_FOR_TESTRAIL}
 testrail.username={YOUR_USERNAME_FOR_TESTRAIL}
 testrail.password={YOUR_PASSWORD_FOR_TESTRAIL}
+page.logopath={PATH_TO_IMAGE_IN src.main.resources.static.img - i.e. img/images.png}
 ```
 
 Create an environment variable called `TESTRAIL_REPORT_HOME` and point it to where the conf directory is located

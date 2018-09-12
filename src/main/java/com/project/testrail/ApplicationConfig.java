@@ -23,6 +23,9 @@ public class ApplicationConfig {
 	
 	@Value("${testrail.password}")
 	private String password;
+	
+	@Value("${page.logopath}")
+	private String pageLogoPath;
 
 	public String getBaseUrl() {
 		return baseUrl;
@@ -34,6 +37,10 @@ public class ApplicationConfig {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getPageLogoPath() {
+		return pageLogoPath;
 	} 
 	
 

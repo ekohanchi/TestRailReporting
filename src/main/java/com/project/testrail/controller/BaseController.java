@@ -29,4 +29,8 @@ public class BaseController {
 	public void setClient(APIClient apiclient) {
 		client = apiclient;
 	}
+	
+	public String getPageLogoPath() {
+		return appConfig.getPageLogoPath();
+	}
 }

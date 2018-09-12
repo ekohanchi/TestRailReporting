@@ -20,6 +20,7 @@ import com.project.testrail.core.APIClient;
 public class ProjectController extends BaseController {
 	@RequestMapping("/")
 	public String index(Model model) {
+		model.addAttribute("pageLogo", getPageLogoPath());
 		model.addAttribute("todaysDate", populateCurrentDate());
 		model.addAttribute("projects", populateProjectList());
 		return "projects";

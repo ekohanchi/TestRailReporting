@@ -36,30 +36,49 @@ public class TestCases {
 		return casesPerProject;
 	}
 
-//	public HashMap<Integer, Integer> getTCCountByID(APIClient client, HashMap<Integer, String> projectList, int typeId) {
-//		int projectId, tcCount;
-//		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
-//
-//		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
-//			projectId = entry.getKey();
-//			if (getProjectIgnoreList().contains(projectId)) {
-//				tcCount = 0;
-//			} else {
-//				Object object = client.sendGet("get_cases/" + projectId + "&type_id=" + typeId);
-//				JsonElement casesJE = Utils.convertObjectToJson(object);
-//				JsonArray casesJA = casesJE.getAsJsonArray();
-//				tcCount = casesJA.size();
-//			}
-//
-//			casesPerProject.put(projectId, tcCount);
-//		}
-//
-//		// Print to console the values within the Map
-//		// Utils.printCasesPerProject(casesPerProject);
-//
-//		return casesPerProject;
-//	}
+	/**
+	 * This method should be called if you want to get a count of test cases by 'type_id' value
+	 * 
+	 * @param client
+	 * @param projectList - the list of projects
+	 * @param typeId - the type_id value from testrail
+	 * @return
+	 */
+	public HashMap<Integer, Integer> getTCCountByID(APIClient client, HashMap<Integer, String> projectList, int typeId) {
+		int projectId, tcCount;
+		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
 
+		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
+			projectId = entry.getKey();
+			if (getProjectIgnoreList().contains(projectId)) {
+				tcCount = 0;
+			} else {
+				Object object = client.sendGet("get_cases/" + projectId + "&type_id=" + typeId);
+				JsonElement casesJE = Utils.convertObjectToJson(object);
+				JsonArray casesJA = casesJE.getAsJsonArray();
+				tcCount = casesJA.size();
+			}
+
+			casesPerProject.put(projectId, tcCount);
+		}
+
+		// Print to console the values within the Map
+		// Utils.printCasesPerProject(casesPerProject);
+
+		return casesPerProject;
+	}
+
+	/**
+	 * This method should be called if you want to get a count of test cases by custom drop down created called
+	 * "Automation Status"
+	 * 
+	 * @param client
+	 * @param projectList - the list of projects
+	 * @param autoStatus - the automation status value set for the test case
+	 * 		1-Not Automated 2-Automated 3-Not Automatable
+	 * @return
+	 */
+	
 	public HashMap<Integer, Integer> getTCCountByAutoStatus(APIClient client, HashMap<Integer, String> projectList,
 			int autoStatus) {
 		int projectId, tcCount;
