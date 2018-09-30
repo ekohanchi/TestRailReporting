@@ -51,6 +51,7 @@ public class TestRuns {
 			
 			Run run = new Run();
 			run.setName(runJO.get("name").getAsString());
+			run.setProjectId(runJO.get("project_id").getAsInt());
 			run.setIs_completed(runJO.get("is_completed").getAsBoolean());
 			run.setRunId(runId);
 			run.setPassed_count(runJO.get("passed_count").getAsInt());
