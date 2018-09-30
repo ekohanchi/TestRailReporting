@@ -2,6 +2,7 @@ package com.project.testrail.controller.model;
 
 public class Run {
 	private int runId;
+	private int projectId;
 	private String name;
 	private Boolean is_completed;
 	private int passed_count;
@@ -22,6 +23,12 @@ public class Run {
 	}
 	public void setRunId(int runId) {
 		this.runId = runId;
+	}
+	public int getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 	public String getName() {
 		return name;

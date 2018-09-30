@@ -55,7 +55,7 @@
 	          ['Custom Status 1', customStatus1],
 	          ['Custom Status 2', customStatus2],
 	          ['Custom Status 3', customStatus3],
-	          ['Failed Existing', customStatus4],
+	          ['Custom Status 4', customStatus4],
 	          ['Custom Status 5', customStatus5],
 	          ['Custom Status 6', customStatus6],
 	          ['Custom Status 7', customStatus7]
