@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.testrail.ProjectNames;
@@ -14,13 +15,21 @@ import com.project.testrail.TestRuns;
 import com.project.testrail.controller.model.Run;
 import com.project.testrail.core.APIClient;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @RequestMapping("/")
 public class RunAllStatusReportController extends BaseController {
 	
 	private int runId = 0;
 	
-	@RequestMapping(value = "/runallstatusreport")
+	@ApiOperation(value="getAllStatusReport", nickname="getAllStatusReport")
+	@RequestMapping(method = RequestMethod.GET, path="/runallstatusreport", value = "/runallstatusreport")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "run_ids", value = "List of Run Ids", required = true)
+	})
 	public String index(Model model, @RequestParam("testRunIds") String run_ids) {
 		APIClient client = getClient();
 		setClient(client);
