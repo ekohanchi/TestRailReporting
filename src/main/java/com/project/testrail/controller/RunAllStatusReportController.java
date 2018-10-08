@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.testrail.ProjectNames;
@@ -15,21 +14,13 @@ import com.project.testrail.TestRuns;
 import com.project.testrail.controller.model.Run;
 import com.project.testrail.core.APIClient;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-
 @Controller
 @RequestMapping("/")
 public class RunAllStatusReportController extends BaseController {
 	
 	private int runId = 0;
 	
-	@ApiOperation(value="getAllStatusReport", nickname="getAllStatusReport")
-	@RequestMapping(method = RequestMethod.GET, path="/runallstatusreport", value = "/runallstatusreport")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "run_ids", value = "List of Run Ids", required = true)
-	})
+	@RequestMapping(value = "/runallstatusreport")
 	public String index(Model model, @RequestParam("testRunIds") String run_ids) {
 		APIClient client = getClient();
 		setClient(client);
@@ -81,7 +72,7 @@ public class RunAllStatusReportController extends BaseController {
 		model.addAttribute("testrun_names", convertListToHTMLNewLine(namesList));
 		model.addAttribute("project_names", getProjectNamesFromIds(client, projectIdList) );
 		model.addAttribute("is_completed", getLogicalAndFromList(is_completedList));
-		model.addAttribute("testRunIds", runIds.toString());
+		model.addAttribute("testRunIds", getValuesFromList(runIds));
 		model.addAttribute("passed_count", totalPassed);
 		model.addAttribute("blocked_count", totalBlocked);
 		model.addAttribute("untested_count", totalUntested);
@@ -121,5 +112,14 @@ public class RunAllStatusReportController extends BaseController {
 			projectNamesPerLine += (projectNames.getName(client, projectId) + "<br>");
 		}
 		return projectNamesPerLine;
+	}
+	
+	private String getValuesFromList (List<String> runIds) {
+		String idsList = "";
+		for (String runId : runIds) {
+			idsList += (runId + ", ");
+		}
+		// Return string without the last ','
+		return idsList.substring(0, idsList.length() - 2);
 	}
 }
