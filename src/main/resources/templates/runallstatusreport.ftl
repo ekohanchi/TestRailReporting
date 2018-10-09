@@ -94,8 +94,7 @@
 		<div class="col-sm-8">
 		<p class="small">
         <b>Cumulative Test Completion Status:</b> ${is_completed?string('TRUE','FALSE')!"NULL"}<br>
-        <b>Test RunIds:</b> ${testRunIds!"NULL"}<br>
-        <b>TestRun Names:</b><br> ${testrun_names!"NULL"}<br>
+        <b>TestRun Ids & Names:</b><br> ${testrun_ids_names!"NULL"}<br>
         <b>Project Names:</b><br> ${project_names!"NULL"}<br>
         </p>
 		</div>
