@@ -46,6 +46,7 @@ public class RunAllStatusReportController extends BaseController {
 			is_completedList.add(run.getIs_completed());
 			// get list of runIds from the source, parameter value
 			totalPassed += run.getPassed_count();
+			totalBlocked += run.getBlocked_count();
 			totalUntested += run.getUntested_count();
 			totalRetest += run.getRetest_count();
 			totalFailed += run.getFailed_count();
