@@ -61,7 +61,7 @@
 	        
 	
 	        // Set chart options
-	        var options = {'title': "Multiple Test Runs",
+	        var options = {'title': "Test Runs Status",
 			        		'is3D':true,
 			        		'width':400,
 	                       'height':300};
