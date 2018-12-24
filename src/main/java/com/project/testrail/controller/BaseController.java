@@ -33,4 +33,25 @@ public class BaseController {
 	public String getPageLogoPath() {
 		return appConfig.getPageLogoPath();
 	}
+	
+	public String getCustomStatusText(int statusId) {
+		String customStatusText = "";
+		if (statusId == 1) {
+			customStatusText = appConfig.getCustomStatus1Text();
+		} else if (statusId == 2) {
+			customStatusText = appConfig.getCustomStatus2Text();
+		} else if (statusId == 3) {
+			customStatusText = appConfig.getCustomStatus3Text();
+		} else if (statusId == 4) {
+			customStatusText = appConfig.getCustomStatus4Text();
+		} else if (statusId == 5) {
+			customStatusText = appConfig.getCustomStatus5Text();
+		} else if (statusId == 6) {
+			customStatusText = appConfig.getCustomStatus6Text();
+		} else if (statusId == 7) {
+			customStatusText = appConfig.getCustomStatus7Text();
+		}
+		
+		return customStatusText;
+	}
 }

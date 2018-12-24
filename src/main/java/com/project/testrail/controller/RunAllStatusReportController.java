@@ -67,13 +67,22 @@ public class RunAllStatusReportController extends BaseController {
 		model.addAttribute("untested_count", totalUntested);
 		model.addAttribute("retest_count", totalRetest);
 		model.addAttribute("failed_count", totalFailed);
-		model.addAttribute("custom_status1", totalCustomStatus1);
-		model.addAttribute("custom_status2", totalCustomStatus2);
-		model.addAttribute("custom_status3", totalCustomStatus3);
-		model.addAttribute("custom_status4", totalCustomStatus4);
-		model.addAttribute("custom_status5", totalCustomStatus5);
-		model.addAttribute("custom_status6", totalCustomStatus6);
-		model.addAttribute("custom_status7", totalCustomStatus7);
+		
+		model.addAttribute("customStatus1_text", getCustomStatusText(1));
+		model.addAttribute("customStatus2_text", getCustomStatusText(2));
+		model.addAttribute("customStatus3_text", getCustomStatusText(3));
+		model.addAttribute("customStatus4_text", getCustomStatusText(4));
+		model.addAttribute("customStatus5_text", getCustomStatusText(5));
+		model.addAttribute("customStatus6_text", getCustomStatusText(6));
+		model.addAttribute("customStatus7_text", getCustomStatusText(7));
+		
+		model.addAttribute("customStatus1_count", totalCustomStatus1);
+		model.addAttribute("customStatus2_count", totalCustomStatus2);
+		model.addAttribute("customStatus3_count", totalCustomStatus3);
+		model.addAttribute("customStatus4_count", totalCustomStatus4);
+		model.addAttribute("customStatus5_count", totalCustomStatus5);
+		model.addAttribute("customStatus6_count", totalCustomStatus6);
+		model.addAttribute("customStatus7_count", totalCustomStatus7);
 
 		return "runallstatusreport";
 	}

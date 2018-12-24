@@ -18,6 +18,16 @@ testrail.baseurl={YOUR_URL_DOMAIN_FOR_TESTRAIL}
 testrail.username={YOUR_USERNAME_FOR_TESTRAIL}
 testrail.password={YOUR_PASSWORD_FOR_TESTRAIL}
 page.logopath={PATH_TO_IMAGE_IN src.main.resources.static.img - i.e. img/images.png}
+
+# Values for custom test case statuses
+testrail.status.customstatus1={"Custom Status 1"}
+testrail.status.customstatus2={"Custom Status 2"}
+testrail.status.customstatus3={"Custom Status 3"}
+testrail.status.customstatus4={"Custom Status 4"}
+testrail.status.customstatus5={"Custom Status 5"}
+testrail.status.customstatus6={"Custom Status 6"}
+testrail.status.customstatus7={"Custom Status 7"}
+
 ```
 
 Create an environment variable called `TESTRAIL_REPORT_HOME` and point it to where the conf directory is located

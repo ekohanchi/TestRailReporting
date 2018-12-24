@@ -32,13 +32,20 @@
 	    	var untestedCount = ${untested_count!"NULL"};
 	    	var retestCount = ${retest_count!"NULL"};
 	    	var failedCount = ${failed_count!"NULL"};
-	    	var customStatus1 = ${custom_status1!"NULL"};
-	    	var customStatus2 = ${custom_status2!"NULL"};
-	    	var customStatus3 = ${custom_status3!"NULL"};
-	    	var customStatus4 = ${custom_status4!"NULL"};
-	    	var customStatus5 = ${custom_status5!"NULL"};
-	    	var customStatus6 = ${custom_status6!"NULL"};
-	    	var customStatus7 = ${custom_status7!"NULL"};
+	    	var customStatus1Text = ${customStatus1_text!"NULL"};
+	    	var customStatus2Text = ${customStatus2_text!"NULL"};
+	    	var customStatus3Text = ${customStatus3_text!"NULL"};
+	    	var customStatus4Text = ${customStatus4_text!"NULL"};
+	    	var customStatus5Text = ${customStatus5_text!"NULL"};
+	    	var customStatus6Text = ${customStatus6_text!"NULL"};
+	    	var customStatus7Text = ${customStatus7_text!"NULL"};
+	    	var customStatus1Count = ${customStatus1_count!"NULL"};
+	    	var customStatus2Count = ${customStatus2_count!"NULL"};
+	    	var customStatus3Count = ${customStatus3_count!"NULL"};
+	    	var customStatus4Count = ${customStatus4_count!"NULL"};
+	    	var customStatus5Count = ${customStatus5_count!"NULL"};
+	    	var customStatus6Count = ${customStatus6_count!"NULL"};
+	    	var customStatus7Count = ${customStatus7_count!"NULL"};
 	    	
 	        // Create the data table.
 	        var data = new google.visualization.DataTable();
@@ -50,13 +57,13 @@
 	          ['Untested', untestedCount],
 	          ['Retest', retestCount],
 	          ['Failed', failedCount],
-	          ['Custom Status 1', customStatus1],
-	          ['Custom Status 2', customStatus2],
-	          ['Custom Status 3', customStatus3],
-	          ['Custom Status 4', customStatus4],
-	          ['Custom Status 5', customStatus5],
-	          ['Custom Status 6', customStatus6],
-	          ['Custom Status 7', customStatus7]
+	          [customStatus1Text, customStatus1Count],
+	          [customStatus2Text, customStatus2Count],
+	          [customStatus3Text, customStatus3Count],
+	          [customStatus4Text, customStatus4Count],
+	          [customStatus5Text, customStatus5Count],
+	          [customStatus6Text, customStatus6Count],
+	          [customStatus7Text, customStatus7Count]
 	        ]);
 	        
 	
