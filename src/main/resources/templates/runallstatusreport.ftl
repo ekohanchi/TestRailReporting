@@ -98,14 +98,36 @@
 	<div class="row">
 		<!--Div that will hold the pie chart-->
 		<div class="col-sm-4" id="chart_div"></div>
+	</div>
+	<div>
 		<div class="col-sm-8">
 		<p class="small">
         <b>Cumulative Test Completion Status:</b> ${is_completed?string('TRUE','FALSE')!"NULL"}<br>
-        <b>TestRun Ids & Names:</b><br> ${testrun_ids_names!"NULL"}<br>
-        <b>Project Names:</b><br> ${project_names!"NULL"}<br>
         </p>
-		</div>
-	</div>
+        </div>
+        <!-- <div class="table-responsive"> -->
+        <table class="table table-hover table-condensed table-responsive">
+        	<thead>
+	        	<tr class="table-primary">
+	        		<th scope="row">Project Name</th>
+	        		<th scope="row">Run ID</th>
+	        		<th scope="row">Tests Remaining</th>
+	        		<th scope="row">Run Name</th>
+	        	</tr>
+        	</thead>
+        	<tbody>
+        		<#list testrun_details as rundetails>
+        			<tr>
+        				<td>${rundetails.projectName!"NULL"}</td>
+        				<td>${rundetails.runId!"NULL"}</td>
+        				<td align="center">${rundetails.testsRemaining!"NULL"}</td>
+        				<td>${rundetails.runName!"NULL"}</td>
+        			</tr>
+        		</#list>
+        	</tbody>
+        </table>
+<!--         </div> -->
+ 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
