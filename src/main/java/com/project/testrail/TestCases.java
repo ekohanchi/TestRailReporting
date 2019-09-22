@@ -8,46 +8,69 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.project.testrail.core.APIClient;
+import com.project.testrail.model.TestCasesAttibutes;
 
 public class TestCases {
-	public HashMap<Integer, Integer> getTotalTCCount(APIClient client, HashMap<Integer, String> projectList) {
+	private APIClient client;
+	private int automatedStatus = 1;
+	private int notAutomatedStatus = 2;
+	//private int notAutomatableStatus = 3;
+	
+	private String automationSystemName = "custom_automation";
+
+	public TestCases(APIClient apiClient) {
+		this.client = apiClient;
+	}
+
+	public HashMap<Integer, ArrayList<TestCasesAttibutes>> getFullMapOfProjectAndTCCount(HashMap<Integer, String> projectList) {
 		int projectId, tcCount = 0;
-		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
+		ArrayList<Integer> autoTestStatusCountList = new ArrayList<Integer>();
+		TestCasesAttibutes testCasesAttributes = new TestCasesAttibutes();
+		HashMap<Integer, ArrayList<TestCasesAttibutes>> projectsAndTestCasesMap = new HashMap<Integer, ArrayList<TestCasesAttibutes>>();
+		ArrayList<TestCasesAttibutes> testCasesAttributeList = new ArrayList<TestCasesAttibutes>();
 
 		// Store the project id and count of test cases within the project into
 		// a map
 		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
+			autoTestStatusCountList.clear();
+			testCasesAttributes = new TestCasesAttibutes();
+			
 			projectId = entry.getKey();
 			if (getProjectIgnoreList().contains(projectId)) {
 				tcCount = 0;
 			} else {
-				if (getSuiteMode(client, projectId) == 1) {
+				if (getSuiteMode(projectId) == 1) {
 					Object object = client.sendGet("get_cases/" + projectId);
 					JsonElement casesJE = Utils.convertObjectToJson(object);
 					JsonArray casesJA = casesJE.getAsJsonArray();
+					autoTestStatusCountList = getAutoStatusCount(casesJA);
 					tcCount = casesJA.size();
 				} else {
 					// if suiteMode is either 2 or 3
-					for (int suiteID : getSuiteIds(client, projectId)) {
+					for (int suiteID : getSuiteIds(projectId)) {
 						Object object = client.sendGet("get_cases/" + projectId + "&suite_id=" + suiteID);
 						JsonElement casesJE = Utils.convertObjectToJson(object);
 						JsonArray casesJA = casesJE.getAsJsonArray();
+						autoTestStatusCountList = getAutoStatusCount(casesJA);
 						tcCount = casesJA.size();
 					}
 
 				}
 			}
-
-			casesPerProject.put(projectId, tcCount);
+			
+			testCasesAttributes.setTotalTCCount(tcCount);
+			testCasesAttributes.setTotalAutoTCCount(autoTestStatusCountList.get(0));
+			testCasesAttributes.setTotalNotAutoTCCount(autoTestStatusCountList.get(1));
+			testCasesAttributes.setTotalNonAutoTCCount(autoTestStatusCountList.get(2));
+			
+			testCasesAttributeList.add(testCasesAttributes);
+			
+			projectsAndTestCasesMap.put(projectId, testCasesAttributeList);			
 		}
-
-		// Print to console the values within the Map
-		// Utils.printCasesPerProject(casesPerProject);
-
-		return casesPerProject;
+		return projectsAndTestCasesMap;
 	}
 
-	private int getSuiteMode(APIClient client, int projectId) {
+	private int getSuiteMode(int projectId) {
 		Object object = client.sendGet("get_project/" + projectId);
 		JsonElement projectJE = Utils.convertObjectToJson(object);
 		JsonObject projectJO = projectJE.getAsJsonObject();
@@ -55,7 +78,7 @@ public class TestCases {
 		return suiteMode;
 	}
 
-	private ArrayList<Integer> getSuiteIds(APIClient client, int projectId) {
+	private ArrayList<Integer> getSuiteIds(int projectId) {
 		Object object = client.sendGet("get_suites/" + projectId);
 		JsonElement suiteJE = Utils.convertObjectToJson(object);
 		JsonArray suiteJA = suiteJE.getAsJsonArray();
@@ -67,107 +90,49 @@ public class TestCases {
 		}
 		return suiteIDs;
 	}
-
+	
 	/**
-	 * This method should be called if you want to get a count of test cases by
-	 * 'type_id' value
+	 * This method will return back an ArrayList of integers containing:
 	 * 
-	 * @param client
-	 * @param projectList - the list of projects
-	 * @param typeId      - the type_id value from testrail
+	 * 0: automatedTCCount
+	 * 1: notAutomatedTCCount
+	 * 2: notAutomatableTCCount
+	 * 
+	 * @param casesJA
 	 * @return
 	 */
-	public HashMap<Integer, Integer> getTCCountByID(APIClient client, HashMap<Integer, String> projectList,
-			int typeId) {
-		int projectId, tcCount;
-		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
-
-		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
-			projectId = entry.getKey();
-			if (getProjectIgnoreList().contains(projectId)) {
-				tcCount = 0;
-			} else {
-				Object object = client.sendGet("get_cases/" + projectId + "&type_id=" + typeId);
-				JsonElement casesJE = Utils.convertObjectToJson(object);
-				JsonArray casesJA = casesJE.getAsJsonArray();
-				tcCount = casesJA.size();
-			}
-
-			casesPerProject.put(projectId, tcCount);
-		}
-
-		// Print to console the values within the Map
-		// Utils.printCasesPerProject(casesPerProject);
-
-		return casesPerProject;
-	}
-
-	/**
-	 * This method should be called if you want to get a count of test cases by
-	 * custom drop down created called "Automation Status"
-	 * 
-	 * @param client
-	 * @param projectList - the list of projects
-	 * @param autoStatus  - the automation status value set for the test case 1-Not
-	 *                    Automated 2-Automated 3-Not Automatable
-	 * @return
-	 */
-
-	public HashMap<Integer, Integer> getTCCountByAutoStatus(APIClient client, HashMap<Integer, String> projectList,
-			int autoStatus) {
-		int projectId, tcCount;
-		HashMap<Integer, Integer> casesPerProject = new HashMap<Integer, Integer>();
-
-		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
-			projectId = entry.getKey();
-			tcCount = 0;
-			if (getProjectIgnoreList().contains(projectId)) {
-				tcCount = 0;
-			} else {
-				if (getSuiteMode(client, projectId) == 1) {
-
-					Object object = client.sendGet("get_cases/" + projectId);
-					JsonElement casesJE = Utils.convertObjectToJson(object);
-					JsonArray casesJA = casesJE.getAsJsonArray();
-					JsonObject caseJO;
-					JsonElement customAutoStatusJE;
-					for (int i = 0; i < casesJA.size(); i++) {
-						caseJO = casesJA.get(i).getAsJsonObject();
-						customAutoStatusJE = caseJO.get("custom_automation_status");
-						if (customAutoStatusJE != null) {
-							if (customAutoStatusJE.getAsInt() == autoStatus) {
-								tcCount++;
-							}
-						}
-
-					}
+	private ArrayList<Integer> getAutoStatusCount(JsonArray casesJA) {
+		int automatedTCCount = 0;
+		int notAutomatedTCCount = 0;
+		int notAutomatableTCCount = 0;
+		
+		ArrayList<Integer> autoTestCountList = new ArrayList<Integer>();
+		
+		JsonObject caseJO;
+		JsonElement customAutoJE;
+		for (int i=0; i<casesJA.size(); i++) {
+			caseJO = casesJA.get(i).getAsJsonObject();
+			customAutoJE = caseJO.get(automationSystemName);
+			if (customAutoJE != null) {
+				if (customAutoJE.getAsInt() == automatedStatus) {
+					automatedTCCount++;
+				} else if (customAutoJE.getAsInt() == notAutomatedStatus) {
+					notAutomatedTCCount++;
 				} else {
-					// if suiteMode is either 2 or 3
-					for (int suiteID : getSuiteIds(client, projectId)) {
-						Object object = client.sendGet("get_cases/" + projectId + "&suite_id=" + suiteID);
-						JsonElement casesJE = Utils.convertObjectToJson(object);
-						JsonArray casesJA = casesJE.getAsJsonArray();
-						JsonObject caseJO;
-						JsonElement customAutoStatusJE;
-						for (int i = 0; i < casesJA.size(); i++) {
-							caseJO = casesJA.get(i).getAsJsonObject();
-							customAutoStatusJE = caseJO.get("custom_automation_status");
-							if (customAutoStatusJE != null) {
-								if (customAutoStatusJE.getAsInt() == autoStatus) {
-									tcCount++;
-								}
-							}
-
-						}
-					}
+					notAutomatableTCCount++;
 				}
 			}
-			casesPerProject.put(projectId, tcCount);
 		}
-
-		return casesPerProject;
+		autoTestCountList.add(automatedTCCount);
+		autoTestCountList.add(notAutomatedTCCount);
+		autoTestCountList.add(notAutomatableTCCount);
+		return autoTestCountList;
 	}
 
+	/**
+	 * List any project ids that need to be ignored for any reason
+	 * @return
+	 */
 	private ArrayList<Integer> getProjectIgnoreList() {
 		ArrayList<Integer> ignoreList = new ArrayList<Integer>();
 
@@ -192,8 +157,6 @@ public class TestCases {
 				} else {
 					percentage = ((double) totalAutoTC.get(projectId)
 							/ ((double) totalTC.get(projectId) - (double) notAutomatableTC.get(projectId))) * 100;
-					// percentage = (double) ((totalAutoTC.get(projectId) * 100) /
-					// totalTC.get(projectId));
 				}
 			}
 			percentageAutoTC.put(projectId, String.format("%.2f", percentage));

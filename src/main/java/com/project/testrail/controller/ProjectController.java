@@ -15,6 +15,7 @@ import com.project.testrail.ProjectNames;
 import com.project.testrail.TestCases;
 import com.project.testrail.controller.model.Project;
 import com.project.testrail.core.APIClient;
+import com.project.testrail.model.TestCasesAttibutes;
 
 @Controller
 public class ProjectController extends BaseController {
@@ -39,14 +40,19 @@ public class ProjectController extends BaseController {
 		HashMap<Integer, Integer> notAutomatablePerProject;
 		HashMap<Integer, String> autoPercentage;
 
+		HashMap<Integer, ArrayList<TestCasesAttibutes>> projectsAndTestCasesMap = new HashMap<Integer, ArrayList<TestCasesAttibutes>>();
+
 		ProjectNames projectName = new ProjectNames();
-		TestCases testcases = new TestCases();
+		TestCases testcases = new TestCases(client);
 
 		projectList = projectName.getList(client);
-		casePerProject = testcases.getTotalTCCount(client, projectList);
-		autoCasePerProject = testcases.getTCCountByAutoStatus(client, projectList, 2);
-		notAutomatablePerProject = testcases.getTCCountByAutoStatus(client, projectList, 3);
-		autoPercentage = testcases.getPercentageAutoTC(projectList, casePerProject, autoCasePerProject, notAutomatablePerProject);
+
+		projectsAndTestCasesMap = testcases.getFullMapOfProjectAndTCCount(projectList);
+		casePerProject = getTCCountMapFromProjectMap(projectsAndTestCasesMap, 1);
+		autoCasePerProject = getTCCountMapFromProjectMap(projectsAndTestCasesMap, 2);
+		notAutomatablePerProject = getTCCountMapFromProjectMap(projectsAndTestCasesMap, 4);
+		autoPercentage = testcases.getPercentageAutoTC(projectList, casePerProject, autoCasePerProject,
+				notAutomatablePerProject);
 
 		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
 			project = new Project();
@@ -62,7 +68,38 @@ public class ProjectController extends BaseController {
 		return tcCountInProjectList;
 	}
 
-	private String populateCurrentDate() {		
+	/**
+	 * This method will return back a map of project ids and equivalent test case
+	 * count, either total, automated or not automated countType=1 : total TC count
+	 * countType=2 : total auto TC count countType=3 : total not auto TC count
+	 * countType=4 : total non auto TC count
+	 * 
+	 * @param projectsAndTestCasesMap
+	 * @param countType
+	 * @return
+	 */
+	private HashMap<Integer, Integer> getTCCountMapFromProjectMap(
+			HashMap<Integer, ArrayList<TestCasesAttibutes>> projectsAndTestCasesMap, int countType) {
+
+		HashMap<Integer, Integer> tcCountMap = new HashMap<Integer, Integer>();
+		int i = 0;
+		for (Map.Entry<Integer, ArrayList<TestCasesAttibutes>> entry : projectsAndTestCasesMap.entrySet()) {
+			if (countType == 1) {
+				tcCountMap.put(entry.getKey(), entry.getValue().get(i++).getTotalTCCount());
+			} else if (countType == 2) {
+				tcCountMap.put(entry.getKey(), entry.getValue().get(i++).getTotalAutoTCCount());
+			} else if (countType == 3) {
+				tcCountMap.put(entry.getKey(), entry.getValue().get(i++).getTotalNotAutoTCCount());
+			} else if (countType == 4) {
+				tcCountMap.put(entry.getKey(), entry.getValue().get(i++).getTotalNonAutoTCCount());
+			}
+		}
+
+		return tcCountMap;
+
+	}
+
+	private String populateCurrentDate() {
 		Date today = Calendar.getInstance().getTime();
 		return today.toString();
 	}
