@@ -42,14 +42,14 @@ $ . ~/.bash_profile
 In order for this application to work optimally, the following configuration changes need to be made to your TestRail instance:
 
 * within Administration > Customizations 
-* add a new field called "Automation Status"
+* add a new field called "Automation"
 * the type for this new field should be a Dropdown
 * the options for this field should be:
 
 ```
-1, Not Automated
-2, Automated
-3, Not Automatable
+1, Automated
+2, Not Automated
+3, Can't be automated
 ```
 
 * default value should be set to: "Not Automated"
