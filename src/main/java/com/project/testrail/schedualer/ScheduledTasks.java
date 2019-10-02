@@ -13,7 +13,7 @@ import com.project.testrail.controller.BaseController;
 public class ScheduledTasks extends BaseController {
 	private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 	
-	@Scheduled(cron = "0 30,35 * * * *")
+	@Scheduled(cron = "0 0 6,12,18 * * *")
 	public void loadDataToDB() {
 		RestTemplate restTemplate = new RestTemplate();
 		log.info("Making a call to the " + appConfig.getLoadDataUrl() + " endpoint to load data....");
