@@ -1,10 +1,11 @@
 package com.project.testrail.db.model;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import java.util.Date;
+import java.util.List;
 
-public interface ProjectMetricsRepository extends MongoRepository<ProjectMetrics, String> {
-	public static String createdDate = "createdDate";
-	
-//	public ProjectMetrics findByProjectId(int projectId);
-		
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProjectMetricsRepository extends JpaRepository<ProjectMetrics, Integer> {
+	List<ProjectMetrics> findByCreatedDate(Date date);
+			
 }
