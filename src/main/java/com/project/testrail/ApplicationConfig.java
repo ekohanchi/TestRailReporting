@@ -47,6 +47,9 @@ public class ApplicationConfig {
 	
 	@Value("${testrail.status.customstatus7}")
 	private String customStatus7Text;
+	
+	@Value("${testrail.url.loaddata}")
+	private String loadDataUrl;
 
 	public String getBaseUrl() {
 		return baseUrl;
@@ -90,8 +93,9 @@ public class ApplicationConfig {
 
 	public String getCustomStatus7Text() {
 		return customStatus7Text;
-	} 
+	}
 	
-	
-
+	public String getLoadDataUrl() {
+		return loadDataUrl;
+	}
 }

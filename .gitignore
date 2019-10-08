@@ -4,6 +4,7 @@ conf/**
 
 # Test results
 target/
+bin/
 
 # Eclipse STS
 **/.settings/**
