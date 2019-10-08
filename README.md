@@ -2,21 +2,20 @@
 This is a spring boot application, that makes a call to the testrail api and retrievs a list of all projects and within a table displays the total count of test cases, total count of automated test cases, and percentage of automated test cases. In order for the application to start up correctly it must first be configured.
 
 ## Setup
-In order to support a faster load time for project metrics when the home page is called, the data is stored into an instance of Mongo DB as part of a scheduled job call to the `/loaddata` endpoint. The call to the endpoint is currently set to run on the following cron schedule:
+In order to support a faster load time for project metrics when the home page is called, the data is stored into an instance of MySQL DB as part of a scheduled job call to the `/loaddata` endpoint. The call to the endpoint is currently set to run on the following cron schedule:
 
 `0 0 6,12,18 * * *` - At minute 0 past hour 6, 12, and 18.
 
 it can be changed in the `ScheduledTasks` class (currently not configurable via a properties file).
 
-### MongoDB
-Start up an instance of mongoDB with the following details:
+### MySQL
+Start up an instance of MySQL and set up a database and credentials as follows:
 
 ```
-spring.data.mongodb.host=localhost
-spring.data.mongodb.port=27017
-spring.data.mongodb.database=testrailReporting
+create database testrailReporting;
+create user 'reportuser'@'%' identified by '{specify_password}';
+grant all on testrailReporting.* to 'reportuser'@'%';
 ```
-**Note**: username & password is not neccessary to be set
 
 ## Configure - Application
 
@@ -44,6 +43,11 @@ testrail.status.customstatus4={"Custom Status 4"}
 testrail.status.customstatus5={"Custom Status 5"}
 testrail.status.customstatus6={"Custom Status 6"}
 testrail.status.customstatus7={"Custom Status 7"}
+
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3306/testrailReporting?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=PST
+spring.datasource.username=reportuser
+spring.datasource.password={specify_password}
 
 ```
 

@@ -14,39 +14,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.project.testrail.ProjectNames;
 import com.project.testrail.TestCases;
 import com.project.testrail.core.APIClient;
-import com.project.testrail.db.model.ProjectDetails;
+import com.project.testrail.db.model.LoadedAudit;
+import com.project.testrail.db.model.LoadedAuditRepository;
 import com.project.testrail.db.model.ProjectMetrics;
 import com.project.testrail.db.model.ProjectMetricsRepository;
 import com.project.testrail.model.TestCasesAttibutes;
 
 @Controller
 public class LoadDataController extends BaseController {
-	@Autowired ProjectMetricsRepository repository;
+	@Autowired ProjectMetricsRepository projectMetricsRepository;
+	@Autowired LoadedAuditRepository loadedAuditRepository;
 	
 	@RequestMapping(value = "/loaddata")
 	public String index(Model model) {
-		
-//		repository.deleteAll();
-		
+				
 		Date currentDate = getCurrentDate();
-		//repository.save(new ProjectMetrics(currentDate, getSampleProjectDetails()));
-		repository.save(new ProjectMetrics(currentDate, getProjectDetails()));
+		
+		// Store the current date in the loadedAudit table
+		loadedAuditRepository.save(getLoadedAudit(currentDate));
+		
+		// Store all of the project metrics for the current date in the projectMetrics table
+		List<ProjectMetrics> projectMetricsList = getProjectMetrics(currentDate);
+		for(ProjectMetrics projectMetric : projectMetricsList) {
+			projectMetricsRepository.save(projectMetric);
+		}
 		
 		model.addAttribute("message", "Data has been loaded for: " + currentDate);
 		return "loaddata";
 	}
 	
 	private Date getCurrentDate() {
-		//Date today = Calendar.getInstance().getTime();
 		return new Date();
 	}
 	
-	private List<ProjectDetails> getProjectDetails() {
+	private List<ProjectMetrics> getProjectMetrics(Date createdDate) {
 		APIClient client = getClient();
 		setClient(client);
 
-		List<ProjectDetails> projectDetailsList = new ArrayList<ProjectDetails>();
-		ProjectDetails projectDetails;
+		List<ProjectMetrics> projectMetricsList = new ArrayList<ProjectMetrics>();
+		ProjectMetrics projectMetrics;
 
 		HashMap<Integer, String> projectList;
 		HashMap<Integer, Integer> casePerProject;
@@ -67,19 +73,22 @@ public class LoadDataController extends BaseController {
 		notAutomatablePerProject = getTCCountMapFromProjectMap(projectsAndTestCasesMap, 4);
 		autoPercentage = testcases.getPercentageAutoTC(projectList, casePerProject, autoCasePerProject,
 				notAutomatablePerProject);
-
+		
+		int projectId;
 		for (Map.Entry<Integer, String> entry : projectList.entrySet()) {
-			projectDetails = new ProjectDetails();
-			projectDetails.setProjectId(entry.getKey());
-			projectDetails.setProjectName(entry.getValue());
-			projectDetails.setTotalCases(casePerProject.get(entry.getKey()));
-			projectDetails.setTotalAutomated(autoCasePerProject.get(entry.getKey()));
-			projectDetails.setNotAutomatable(notAutomatablePerProject.get(entry.getKey()));
-			projectDetails.setPercentAutomated(autoPercentage.get(entry.getKey()) + "%");
-			projectDetailsList.add(projectDetails);
+			projectId = entry.getKey();
+			projectMetrics = new ProjectMetrics();
+			projectMetrics.setCreatedDate(createdDate);
+			projectMetrics.setProjectId(projectId);
+			projectMetrics.setProjectName(entry.getValue());
+			projectMetrics.setTotalCases(casePerProject.get(projectId));
+			projectMetrics.setTotalAutomated(autoCasePerProject.get(projectId));
+			projectMetrics.setNotAutomatable(notAutomatablePerProject.get(projectId));
+			projectMetrics.setPercentAutomated(Float.parseFloat(autoPercentage.get(projectId)));
+			projectMetricsList.add(projectMetrics);
 		}
 
-		return projectDetailsList;
+		return projectMetricsList;
 	}
 	
 	/**
@@ -110,7 +119,14 @@ public class LoadDataController extends BaseController {
 		}
 
 		return tcCountMap;
-
+	}
+	
+	private LoadedAudit getLoadedAudit(Date createdDate) {
+		LoadedAudit loadedAudit = new LoadedAudit();
+		loadedAudit.setCreatedDate(createdDate);
+		loadedAudit.setCreatedDateDisplay(createdDate.toString());
+		return loadedAudit;
+		
 	}
 	
 }
