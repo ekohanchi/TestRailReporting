@@ -70,7 +70,7 @@ In order for this application to work optimally, the following configuration cha
 ```
 1, Automated
 2, Not Automated
-3, Can't be automated
+3, Not Automatable
 ```
 
 * default value should be set to: "Not Automated"
