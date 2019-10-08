@@ -72,17 +72,26 @@ public class TestRuns {
 	
 	public ArrayList<Integer> getResultsForRun(APIClient client, int runId) {
 		log.info("Getting detailed results for test run with runId: " + runId + " ...");
-		Object runObject = client.sendGet("get_results_for_run/" + runId);
-		JsonElement runJE = Utils.convertObjectToJson(runObject);
-		JsonArray runsJA = runJE.getAsJsonArray();
-		
 		ArrayList<Integer> testIdList = new ArrayList<Integer>();
-		int testId;
-		for (int i=0; i<runsJA.size(); i++) {
-			testId = runsJA.get(i).getAsJsonObject().get("test_id").getAsInt();
-			testIdList.add(testId);
-		}
-		
+		/* get_results_for_run method returns up to 250 entries in the response array.
+		To retrieve additional entries, we have to make additional requests using the offset filter
+
+		http://docs.gurock.com/testrail-api2/reference-results#get_results_for_run
+		*/
+		int offset = 0;
+		JsonArray runsJA;
+		do {
+			Object runObject = client.sendGet("get_results_for_run/" + runId + "&offset=" + offset);
+			JsonElement runJE = Utils.convertObjectToJson(runObject);
+			runsJA = runJE.getAsJsonArray();
+
+			for (int i=0; i<runsJA.size(); i++) {
+				int testId = runsJA.get(i).getAsJsonObject().get("test_id").getAsInt();
+				testIdList.add(testId);
+			}
+			offset += runsJA.size();
+		} while (runsJA.size() == 250);
+
 		// Making the list a unique list
 		ArrayList<Integer> uniqueTestIdList =  new ArrayList<Integer> (testIdList.stream().distinct().collect(Collectors.toList()));
 		//log.info("List of test case ids within runid: " + runId + " - " + testIdList.toString());
