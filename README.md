@@ -4,7 +4,7 @@ This is a spring boot application, that makes a call to the testrail api and ret
 ## Setup
 In order to support a faster load time for project metrics when the home page is called, the data is stored into an instance of MySQL DB as part of a scheduled job call to the `/loaddata` endpoint. The call to the endpoint is currently set to run on the following cron schedule:
 
-`0 0 6,12,18 * * *` - At minute 0 past hour 6, 12, and 18.
+`0 0 */3 * * *` - “At minute 0 past every 3rd hour.”
 
 it can be changed in the `ScheduledTasks` class (currently not configurable via a properties file).
 
